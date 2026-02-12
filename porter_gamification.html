@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Porter Case - Team Mind Flayer</title>
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --porter-blue: #0044BB; /* Approx Porter Blue */
+            --porter-light-blue: #E6F0FF;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --bg-gray: #f9f9f9;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--white);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        /* HEADER SECTION */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--porter-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 5px 0;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .team-members {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* MOBILE PHONE SIMULATION */
+        .phone-mockup {
+            width: 320px;
+            height: 650px;
+            background-color: #000;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #f5f5f5;
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Phone Header */
+        .app-header {
+            background-color: var(--porter-blue);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .app-logo {
+            height: 30px;
+            /* Placeholder styling if image is missing */
+            background-color: white; 
+            border-radius: 4px;
+            padding: 2px;
+        }
+        
+        .profile-icon {
+            width: 35px;
+            height: 35px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Phone Content Scrollable */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        /* Tab Navigation */
+        .bottom-nav {
+            background-color: white;
+            height: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--porter-blue);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        /* GAMIFICATION UI INSIDE PHONE */
+        .dashboard-card {
+            background: white;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .level-progress {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .current-level {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--porter-blue);
+            margin-bottom: 5px;
+        }
+
+        .progress-bar-bg {
+            background-color: #eee;
+            height: 8px;
+            border-radius: 4px;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .progress-bar-fill {
+            background-color: var(--porter-blue);
+            height: 100%;
+            border-radius: 4px;
+            width: 65%; /* Demo value */
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-val { font-weight: bold; font-size: 1.1rem; }
+        .stat-label { font-size: 0.8rem; color: #666; }
+
+        .tier-list {
+            padding: 0 15px 15px 15px;
+        }
+
+        .tier-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .tier-card:hover {
+            transform: scale(1.02);
+        }
+
+        .tier-card.locked {
+            opacity: 0.6;
+            background-color: #f9f9f9;
+        }
+
+        .tier-card.active {
+            border-left-color: var(--porter-blue);
+            background-color: #f0f7ff;
+        }
+        
+        .tier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .tier-title {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .tier-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: #eee;
+        }
+        
+        .tier-benefits {
+            font-size: 0.85rem;
+            color: #555;
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .tier-benefits li {
+            margin-bottom: 4px;
+            display: flex;
+            align-items: start;
+        }
+        
+        .tier-benefits li::before {
+            content: "✓";
+            color: green;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+        
+        .tier-benefits li.locked-item::before {
+            content: "🔒";
+            color: #888;
+        }
+
+        /* STRATEGY TEXT SECTION */
+        .strategy-details {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .section-title {
+            color: var(--porter-blue);
+            border-bottom: 2px solid var(--porter-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .strategy-point {
+            margin-bottom: 25px;
+        }
+
+        .strategy-point h3 {
+            font-size: 1.1rem;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .strategy-point p, .strategy-point ul {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background-color: var(--porter-light-blue);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--porter-blue);
+            margin-top: 20px;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadein {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            animation: fadein 0.5s ease-out forwards;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>The Porter Case</h1>
+        <h2>Team Mind Flayer</h2>
+        <div class="team-members">Aprajita &nbsp;|&nbsp; Mehek &nbsp;|&nbsp; Amogh</div>
+    </header>
+
+    <div class="main-container">
+        
+        <div class="phone-mockup">
+            <div class="phone-screen">
+                <div class="app-header">
+                    <img src="porter.png" alt="Porter" class="app-logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<b>PORTER</b>';">
+                    <div class="profile-icon">JS</div>
+                </div>
+
+                <div class="app-content" id="appContent">
+                    <div class="dashboard-card animate">
+                        <div class="level-progress">
+                            <div class="current-level">Level: Consistent Partner</div>
+                            <div style="font-size: 0.8rem; color: #666;">2,450 Points to Next Tier</div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill"></div>
+                            </div>
+                        </div>
+                        <div class="stats-row">
+                            <div class="stat-box">
+                                <div class="stat-val">4.8</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-val">92%</div>
+                                <div class="stat-label">Acceptance</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-val">Low</div>
+                                <div class="stat-label">Idle Time</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 15px; font-weight: bold; color: #444;">Your Progression</div>
+
+                    <div class="tier-list">
+                        <div class="tier-card" onclick="showDetails(1)">
+                            <div class="tier-header">
+                                <span class="tier-title">1. Base Driver</span>
+                                <span class="tier-badge">Completed</span>
+                            </div>
+                            <ul class="tier-benefits">
+                                <li>35% Commission to Porter</li>
+                                <li>Basic Driving Tutorials</li>
+                                <li>Service Centre Access</li>
+                            </ul>
+                        </div>
+
+                        <div class="tier-card active" onclick="showDetails(2)">
+                            <div class="tier-header">
+                                <span class="tier-title">2. Consistent Partner</span>
+                                <span class="tier-badge" style="background:#d4edda; color:green;">Current Status</span>
+                            </div>
+                            <ul class="tier-benefits">
+                                <li>30% Commission (Earn More)</li>
+                                <li>Discounted Vehicle Insurance</li>
+                                <li>Meal Partnerships & Service Discounts</li>
+                            </ul>
+                        </div>
+
+                        <div class="tier-card locked" onclick="showDetails(3)">
+                            <div class="tier-header">
+                                <span class="tier-title">3. Core Partner</span>
+                                <span class="tier-badge">Locked</span>
+                            </div>
+                            <ul class="tier-benefits">
+                                <li class="locked-item">20% Commission</li>
+                                <li class="locked-item">Subsidized Family Health Insurance</li>
+                                <li class="locked-item">Annual Health Check-ups</li>
+                            </ul>
+                        </div>
+
+                         <div class="tier-card locked" onclick="showDetails(4)">
+                            <div class="tier-header">
+                                <span class="tier-title">4. Select Partner</span>
+                                <span class="tier-badge">Locked</span>
+                            </div>
+                            <ul class="tier-benefits">
+                                <li class="locked-item">10% Commission (Max Earnings)</li>
+                                <li class="locked-item">Education Support (Self/Family)</li>
+                                <li class="locked-item">Premium Insurance Bundle</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="switchTab('home')">
+                        <span class="nav-icon">🏠</span>
+                        Home
+                    </div>
+                    <div class="nav-item active" onclick="switchTab('tiers')">
+                        <span class="nav-icon">🏆</span>
+                        My Tier
+                    </div>
+                    <div class="nav-item" onclick="switchTab('earnings')">
+                        <span class="nav-icon">₹</span>
+                        Earnings
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="strategy-details">
+            <h2 class="section-title">Gamified Engagement Strategy</h2>
+
+            <div class="strategy-point">
+                <h3>1. The Core Problem: Income & Dignity</h3>
+                <p>Drivers aren't just leaving for money; they leave due to unpredictability and lack of safety nets. While demand exists, supply churns because drivers feel like commodities. Our solution shifts the model from "Gig Worker" to "Long-term Partner."</p>
+            </div>
+
+            <div class="strategy-point">
+                <h3>2. The Solution: Income Stability Architecture</h3>
+                <p>We propose a 4-Tier Gamified System. Instead of burning cash on short-term incentives, we invest in sustainable life benefits that lock drivers into the ecosystem.</p>
+                <ul>
+                    <li><strong>Psychographics:</strong> Appeals to the desire for security, family safety, and career progression.</li>
+                    <li><strong>Mechanism:</strong> Points are earned via Consistency, Ratings, and Low Idle Time.</li>
+                </ul>
+            </div>
+
+            <div class="strategy-point">
+                <h3>3. Key Offerings (Why These?)</h3>
+                <ul>
+                    <li><strong>Resting Pods & Service Centers:</strong> Solving physical fatigue (inspired by Tamil Nadu govt initiatives).</li>
+                    <li><strong>Insurance Stack (Health/Vehicle/Accident):</strong> High-perceived value, lower cost to company at scale. Addresses the #1 fear of gig workers.</li>
+                    <li><strong>Education Support:</strong> For "Select Partners," funding education for children creates an emotional lock-in that cash cannot buy.</li>
+                    <li><strong>Food & Meal Partnerships:</strong> Reducing daily operational costs for drivers.</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <strong>Sustainability Check:</strong> 
+                <br>
+                By reducing commissions only for top-tier drivers (who have high retention and efficiency), Porter protects unit economics while maximizing revenue from the most reliable supply.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            const content = document.getElementById('appContent');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            // Reset Nav Styles
+            navItems.forEach(item => item.classList.remove('active'));
+
+            // Simple Tab Logic for Demo
+            if (tabName === 'tiers') {
+                navItems[1].classList.add('active');
+                renderTiers(content);
+            } else if (tabName === 'home') {
+                navItems[0].classList.add('active');
+                content.innerHTML = `
+                    <div style="display:flex; justify-content:center; align-items:center; height:100%; flex-direction:column; color:#888;">
+                        <div style="font-size:3rem; margin-bottom:10px;">🗺️</div>
+                        <div>Map View (Simulation)</div>
+                        <div style="margin-top:20px; padding:10px; background:#eef; border-radius:5px; width:80%; text-align:center;">
+                            New Order Request!<br>
+                            <b>Pickup: Koramangala</b><br>
+                            <span style="color:green">+ 50 Points</span>
+                        </div>
+                    </div>
+                `;
+            } else if (tabName === 'earnings') {
+                navItems[2].classList.add('active');
+                content.innerHTML = `
+                    <div style="display:flex; justify-content:center; align-items:center; height:100%; flex-direction:column; color:#888;">
+                        <div style="font-size:3rem; margin-bottom:10px;">₹</div>
+                        <div>Earnings Dashboard</div>
+                        <div style="margin-top:20px; font-size:0.9rem;">
+                            Current Commission: <b>30%</b><br>
+                            Reach "Core Partner" for <b>20%</b>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderTiers(container) {
+            // Re-injects the tier HTML structure (same as initial load)
+            // Ideally this would be dynamic, but for a single file static demo, we reload the block.
+            location.reload(); // Simplest way to reset the view for this specific demo file request.
+            // In a real app, we would use DOM manipulation to show/hide sections.
+        }
+
+        function showDetails(tier) {
+            let title = "";
+            let msg = "";
+            
+            if(tier === 1) {
+                title = "Base Driver";
+                msg = "Entry level. Focus on basic training and access to service centers.";
+            } else if (tier === 2) {
+                title = "Consistent Partner";
+                msg = "You are here! You have unlocked lower commissions (30%) and vehicle insurance discounts.";
+            } else if (tier === 3) {
+                title = "Core Partner";
+                msg = "Target: Maintain 4.8 Rating & 90% Acceptance. Unlocks Family Health Insurance.";
+            } else if (tier === 4) {
+                title = "Select Partner";
+                msg = "Elite Status. Lowest Commission (10%) + Education Support for your family.";
+            }
+
+            alert(title + "\n\n" + msg);
+        }
+    </script>
+</body>
+</html>
